@@ -1,7 +1,7 @@
 Blueprint Incubation Estimation EpiLPS
 ================
 Oswaldo Gressani
-2024-06-04
+2024-07-09
 
 ![](IncubTable.png)
 

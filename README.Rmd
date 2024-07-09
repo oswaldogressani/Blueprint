@@ -2,7 +2,7 @@
 title: "Blueprint Incubation Estimation EpiLPS"
 output: github_document
 author: Oswaldo Gressani
-date: 2024-06-04
+date: 2024-07-09
 ---
 
 ```{r setup, include=FALSE}
