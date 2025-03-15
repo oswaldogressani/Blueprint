@@ -1,6 +1,6 @@
 #------------------------------------------------------------------------------#
 #               EpiLPS incubation estimation Wuhan (Wild-type)                 #
-#           Copyright Oswaldo Gressani 2024. All rights reserved.              #
+#           Copyright Oswaldo Gressani 2025. All rights reserved.              #
 #------------------------------------------------------------------------------#
 
 library("EpiLPS")
@@ -8,7 +8,7 @@ library("xlsx")
 library(tidyverse)
 rm(list = ls())
 
-# Code snippet adapted from Backer et al. 2020
+#-- Code snippet adapted from Backer et al. 2020
 dataraw <- read_tsv(file = "Data/Pathogen2-SARSCov2-Wild.tsv")
 
 dataraw <- dataraw %>% 
@@ -20,7 +20,7 @@ dataraw <- dataraw %>%
   mutate(tStartExposure = ifelse(is.na(tStartExposure), min(tSymptomOnset)-8, tStartExposure)) %>%
   # if symptom onset in Wuhan, exposure ends at symptom onset
   mutate(tEndExposure = ifelse(tEndExposure >= tSymptomOnset, tSymptomOnset, tEndExposure))
-# End of code snippet from Backer et al. 2020
+#-- End of code snippet from Backer et al. 2020
 
 tEL <- dataraw$tStartExposure[-which(is.na(dataraw$exposure_start))]
 n <- length(tEL)
@@ -75,15 +75,12 @@ incubfit <- EpiLPS::estimIncub(x = data, K = 20, niter = 20000, verbose = TRUE,
                        tmax = 20)
 
 # Extract estimates
-Pathogen2_Covid_Estimates <- matrix(0, nrow = 3, ncol = 3)
+Pathogen2_Covid_Estimates <- matrix(0, nrow = 2, ncol = 3)
 colnames(Pathogen2_Covid_Estimates) <- c("Point estimate", "CI95L", "CI95R")
 rownames(Pathogen2_Covid_Estimates) <- c("Mean incubation period (days)",
-                                        "SD incubation period (days)",
-                                        "95% CI of incubation time (days)")
+                                        "SD incubation period (days)")
 Pathogen2_Covid_Estimates[c(1:2),] <- round(incubfit$stats[c(1,2),c(1,4,5)],1)
-Pathogen2_Covid_Estimates[3,] <- c(NA,round(qlnorm(p=c(0.025,0.975), 
-                                                  meanlog = incubfit$meanlog, 
-                                                  sdlog = incubfit$sdlog),1))
+
 
 # Write estimates in Estimates folder
 write.xlsx(Pathogen2_Covid_Estimates, 

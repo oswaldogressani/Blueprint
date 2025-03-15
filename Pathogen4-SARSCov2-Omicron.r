@@ -1,6 +1,6 @@
 #------------------------------------------------------------------------------#
 #         EpiLPS incubation estimation SARS-CoV-2 Omicron variant              #
-#             Oswaldo Gressani 2024. All rights reserved.                      #
+#             Oswaldo Gressani 2025. All rights reserved.                      #
 #------------------------------------------------------------------------------#
 
 library("tidyverse")
@@ -66,15 +66,12 @@ incubfit <- EpiLPS::estimIncub(x = dataset, K = 20, niter = 20000, verbose = TRU
                                tmax = 20)
 
 # Extract estimates
-Pathogen4_Covid_Estimates <- matrix(0, nrow = 3, ncol = 3)
+Pathogen4_Covid_Estimates <- matrix(0, nrow = 2, ncol = 3)
 colnames(Pathogen4_Covid_Estimates) <- c("Point estimate", "CI95L", "CI95R")
 rownames(Pathogen4_Covid_Estimates) <- c("Mean incubation period (days)",
-                                         "SD incubation period (days)",
-                                         "95% CI of incubation time (days)")
+                                         "SD incubation period (days)")
 Pathogen4_Covid_Estimates[c(1:2),] <- round(incubfit$stats[c(1,2),c(1,4,5)],1)
-Pathogen4_Covid_Estimates[3,] <- c(NA,round(qlnorm(p=c(0.025,0.975), 
-                                                   meanlog = incubfit$meanlog, 
-                                                   sdlog = incubfit$sdlog), 1))
+
 
 # Write estimates in Estimates folder
 write.xlsx(Pathogen4_Covid_Estimates, 

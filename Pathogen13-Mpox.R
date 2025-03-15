@@ -1,6 +1,6 @@
 #------------------------------------------------------------------------------#
 #               EpiLPS incubation estimation Mpox                              #
-#           Copyright Oswaldo Gressani 2024. All rights reserved.              #
+#           Copyright Oswaldo Gressani 2025. All rights reserved.              #
 #------------------------------------------------------------------------------#
 
 # Original xls data downloaded from Miura et al. (2022)
@@ -60,15 +60,11 @@ incubfit <- EpiLPS::estimIncub(x = data, K = 20, niter = 20000, verbose = TRUE,
                        tmax = 30)
 
 # Extract estimates
-Pathogen13_Mpox_Estimates <- matrix(0, nrow = 3, ncol = 3)
+Pathogen13_Mpox_Estimates <- matrix(0, nrow = 2, ncol = 3)
 colnames(Pathogen13_Mpox_Estimates) <- c("Point estimate", "CI95L", "CI95R")
 rownames(Pathogen13_Mpox_Estimates) <- c("Mean incubation period (days)",
-                                        "SD incubation period (days)",
-                                        "95% CI of incubation time (days)")
+                                        "SD incubation period (days)")
 Pathogen13_Mpox_Estimates[c(1:2),] <- round(incubfit$stats[c(1,2),c(1,4,5)],1)
-Pathogen13_Mpox_Estimates[3,] <- c(NA,round(qlnorm(p=c(0.025,0.975), 
-                                                   meanlog = incubfit$meanlog, 
-                                                   sdlog = incubfit$sdlog), 1))
 
 # Write estimates in Estimates folder
 write.xlsx(Pathogen13_Mpox_Estimates, 

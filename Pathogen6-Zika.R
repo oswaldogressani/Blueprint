@@ -1,6 +1,6 @@
 #------------------------------------------------------------------------------#
 #               EpiLPS incubation estimation Zika virus                        #
-#           Copyright Oswaldo Gressani 2024. All rights reserved.              #
+#           Copyright Oswaldo Gressani 2025. All rights reserved.              #
 #------------------------------------------------------------------------------#
 
 
@@ -71,18 +71,11 @@ incubfit <- EpiLPS::estimIncub(x = data, K = 20, niter = 20000, verbose = TRUE,
                        tmax = 25)
 
 # Extract estimates
-Pathogen6_Zika_Estimates <- matrix(0, nrow = 3, ncol = 3)
+Pathogen6_Zika_Estimates <- matrix(0, nrow = 2, ncol = 3)
 colnames(Pathogen6_Zika_Estimates) <- c("Point estimate", "CI95L", "CI95R")
 rownames(Pathogen6_Zika_Estimates) <- c("Mean incubation period (days)",
-                                        "SD incubation period (days)",
-                                        "95% CI of incubation time (days)")
+                                        "SD incubation period (days)")
 Pathogen6_Zika_Estimates[c(1:2),] <- round(incubfit$stats[c(1,2),c(1,4,5)],1)
-tdom <- incubfit$tg
-fhat <- incubfit$ftg
-dt <- tdom[2] - tdom[1]
-Fhat <- cumsum(fhat * dt)
-Pathogen6_Zika_Estimates[3,] <- c(NA,
-       round(c(incubfit$tg[sum(Fhat<=0.025)],incubfit$tg[sum(Fhat<=0.975)]),1))
 
 # Write estimates in Estimates folder
 write.xlsx(Pathogen6_Zika_Estimates, 

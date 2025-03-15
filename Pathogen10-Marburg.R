@@ -1,6 +1,6 @@
 #------------------------------------------------------------------------------#
 #            EpiLPS incubation estimation of Marburg                           #
-#           Copyright Oswaldo Gressani 2024. All rights reserved.              #
+#           Copyright Oswaldo Gressani 2025. All rights reserved.              #
 #------------------------------------------------------------------------------#
 
 # Original data can be found directly in supp material of article:
@@ -33,15 +33,11 @@ incubfit <- estimIncub(x = data, K = 20, niter = 20000, verbose = TRUE,
                                tmax = 17)
 
 # Extract estimates
-Pathogen10_Marburg_Estimates <- matrix(0, nrow = 3, ncol = 3)
+Pathogen10_Marburg_Estimates <- matrix(0, nrow = 2, ncol = 3)
 colnames(Pathogen10_Marburg_Estimates) <- c("Point estimate", "CI95L", "CI95R")
 rownames(Pathogen10_Marburg_Estimates) <- c("Mean incubation period (days)",
-                                        "SD incubation period (days)",
-                                        "95% CI of incubation time (days)")
+                                        "SD incubation period (days)")
 Pathogen10_Marburg_Estimates[c(1:2),] <- round(incubfit$stats[c(1,2),c(1,4,5)],1)
-Pathogen10_Marburg_Estimates[3,] <- c(NA,round(qweibull(p=c(0.025,0.975), 
-                                                  shape = incubfit$shape,
-                                                  scale = incubfit$scale), 1))
 
 # Write estimates in Estimates folder
 write.xlsx(Pathogen10_Marburg_Estimates, 

@@ -1,6 +1,6 @@
 #------------------------------------------------------------------------------#
 #               EpiLPS incubation estimation CCHF                              #
-#           Copyright Oswaldo Gressani 2024. All rights reserved.              #
+#           Copyright Oswaldo Gressani 2025. All rights reserved.              #
 #------------------------------------------------------------------------------#
 
 library("EpiLPS")
@@ -62,15 +62,11 @@ incubfit <- EpiLPS::estimIncub(x = dataCCHF, K = 20, niter = 20000, verbose = TR
                        tmax = 20)
 
 # Extract estimates
-Pathogen11_CCHF_Estimates <- matrix(0, nrow = 3, ncol = 3)
+Pathogen11_CCHF_Estimates <- matrix(0, nrow = 2, ncol = 3)
 colnames(Pathogen11_CCHF_Estimates) <- c("Point estimate", "CI95L", "CI95R")
 rownames(Pathogen11_CCHF_Estimates) <- c("Mean incubation period (days)",
-                                        "SD incubation period (days)",
-                                        "95% CI of incubation time (days)")
+                                        "SD incubation period (days)")
 Pathogen11_CCHF_Estimates[c(1:2),] <- round(incubfit$stats[c(1,2),c(1,4,5)],1)
-Pathogen11_CCHF_Estimates[3,] <- c(NA,round(qgamma(p=c(0.025,0.975), 
-                                                  shape = incubfit$shape,
-                                                  rate = incubfit$rate), 1))
 
 # Write estimates in Estimates folder
 write.xlsx(Pathogen11_CCHF_Estimates, 

@@ -1,6 +1,6 @@
 #------------------------------------------------------------------------------#
 #               EpiLPS incubation estimation RVF                               #
-#           Copyright Oswaldo Gressani 2024. All rights reserved.              #
+#           Copyright Oswaldo Gressani 2025. All rights reserved.              #
 #------------------------------------------------------------------------------#
 
 library("EpiLPS")
@@ -62,18 +62,11 @@ incubfit <- EpiLPS::estimIncub(x = dataRVF, K = 20, niter = 20000, verbose = TRU
                        tmax = 10)
 
 # Extract estimates
-Pathogen12_RVF_Estimates <- matrix(0, nrow = 3, ncol = 3)
+Pathogen12_RVF_Estimates <- matrix(0, nrow = 2, ncol = 3)
 colnames(Pathogen12_RVF_Estimates) <- c("Point estimate", "CI95L", "CI95R")
 rownames(Pathogen12_RVF_Estimates) <- c("Mean incubation period (days)",
-                                                 "SD incubation period (days)",
-                                                 "95% CI of incubation time (days)")
+                                                 "SD incubation period (days)")
 Pathogen12_RVF_Estimates[c(1:2),] <- round(incubfit$stats[c(1,2),c(1,4,5)],1)
-tdom <- incubfit$tg
-fhat <- incubfit$ftg
-dt <- tdom[2] - tdom[1]
-Fhat <- cumsum(fhat * dt)
-Pathogen12_RVF_Estimates[3,] <- c(NA,
-  round(c(incubfit$tg[sum(Fhat<=0.025)],incubfit$tg[sum(Fhat<=0.975)]),1))
 
 # Write estimates in Estimates folder
 write.xlsx(Pathogen12_RVF_Estimates, 

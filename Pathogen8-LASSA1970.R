@@ -54,15 +54,12 @@ incubfit <- EpiLPS::estimIncub(x = data, K = 20, niter = 20000, verbose = TRUE,
                                tmax = 42)
 
 # Extract estimates
-Pathogen8_LASSA_Estimates <- matrix(0, nrow = 3, ncol = 3)
+Pathogen8_LASSA_Estimates <- matrix(0, nrow = 2, ncol = 3)
 colnames(Pathogen8_LASSA_Estimates) <- c("Point estimate", "CI95L", "CI95R")
 rownames(Pathogen8_LASSA_Estimates) <- c("Mean incubation period (days)",
-                                        "SD incubation period (days)",
-                                        "95% CI of incubation time (days)")
+                                        "SD incubation period (days)")
 Pathogen8_LASSA_Estimates[c(1:2),] <- round(incubfit$stats[c(1,2),c(1,4,5)],1)
-Pathogen8_LASSA_Estimates[3,] <- c(NA,round(qlnorm(p=c(0.025,0.975), 
-                                                  meanlog = incubfit$meanlog, 
-                                                  sdlog = incubfit$sdlog), 1))
+
 
 # Write estimates in Estimates folder
 write.xlsx(Pathogen8_LASSA_Estimates, 

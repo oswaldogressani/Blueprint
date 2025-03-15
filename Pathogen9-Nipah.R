@@ -1,6 +1,6 @@
 #------------------------------------------------------------------------------#
 #            EpiLPS incubation estimation of Nipah                             #
-#           Copyright Oswaldo Gressani 2024. All rights reserved.              #
+#           Copyright Oswaldo Gressani 2025. All rights reserved.              #
 #------------------------------------------------------------------------------#
 
 # Original data can be found directly in supp material of article:
@@ -47,15 +47,11 @@ incubfit <- EpiLPS::estimIncub(x = data, K = 20, niter = 20000, verbose = TRUE,
                                tmax = 18)
 
 # Extract estimates
-Pathogen9_Nipah_Estimates <- matrix(0, nrow = 3, ncol = 3)
+Pathogen9_Nipah_Estimates <- matrix(0, nrow = 2, ncol = 3)
 colnames(Pathogen9_Nipah_Estimates) <- c("Point estimate", "CI95L", "CI95R")
 rownames(Pathogen9_Nipah_Estimates) <- c("Mean incubation period (days)",
-                                        "SD incubation period (days)",
-                                        "95% CI of incubation time (days)")
+                                        "SD incubation period (days)")
 Pathogen9_Nipah_Estimates[c(1:2),] <- round(incubfit$stats[c(1,2),c(1,4,5)],1)
-Pathogen9_Nipah_Estimates[3,] <- c(NA,round(qgamma(p=c(0.025,0.975), 
-                                                  shape = incubfit$shape,
-                                                  rate = incubfit$rate), 1))
 
 # Write estimates in Estimates folder
 write.xlsx(Pathogen9_Nipah_Estimates, 
